@@ -44,7 +44,10 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
-    
+
+    genre_related_counts = df[df['related'] == 1].groupby('genre').count()['message']
+    genre_nonrelated_counts = df[df['related'] == 0].groupby('genre').count()['message']
+
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
     graphs = [
@@ -63,6 +66,42 @@ def index():
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=genre_names,
+                    y=genre_related_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Related Genres',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Related Genre"
+                }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=genre_names,
+                    y=genre_nonrelated_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Non Related Genres',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Non Related Genre"
                 }
             }
         }
